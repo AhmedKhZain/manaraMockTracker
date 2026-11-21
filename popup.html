@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Manara Mock Tracker</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: "Segoe UI", Tahoma, sans-serif;
+    }
+
+    body {
+      width: 460px;
+      max-height: 600px;
+      margin: 0;
+      padding: 14px;
+      background: #111827;
+      color: #f9fafb;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #374151;
+      padding-bottom: 10px;
+      margin-bottom: 10px;
+    }
+
+    .title {
+      font-size: 15px;
+      font-weight: 700;
+      margin: 0;
+    }
+
+    .meta {
+      font-size: 11px;
+      color: #9ca3af;
+      margin-top: 2px;
+    }
+
+    .save-row {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+
+    input[type="text"], input[type="password"] {
+      padding: 7px 9px;
+      border-radius: 6px;
+      border: 1px solid #374151;
+      background: #1f2937;
+      color: #f9fafb;
+      font-size: 12px;
+      flex: 1;
+    }
+
+    .actions {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      border: none;
+      border-radius: 6px;
+      padding: 7px 10px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .btn-review {
+      background: #059669;
+      color: #ffffff;
+    }
+
+    .btn-review:hover {
+      background: #047857;
+    }
+
+    .btn-export {
+      background: #2563eb;
+      color: #ffffff;
+    }
+
+    .btn-export:hover {
+      background: #1d4ed8;
+    }
+
+    .btn-import {
+      background: #7c3aed;
+      color: #ffffff;
+    }
+
+    .btn-import:hover {
+      background: #6d28d9;
+    }
+
+    .btn-delete {
+      background: #dc2626;
+      color: #ffffff;
+    }
+
+    .btn-delete:hover {
+      background: #b91c1c;
+    }
+
+    .btn-confirm {
+      background: #f59e0b;
+      color: #111827;
+    }
+
+    .search-input {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+
+    .status-msg {
+      font-size: 11px;
+      color: #34d399;
+      margin-bottom: 8px;
+      display: none;
+    }
+
+    .questions-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      max-height: 360px;
+      overflow-y: auto;
+    }
+
+    .card {
+      background: #1f2937;
+      border: 1px solid #374151;
+      border-radius: 8px;
+      padding: 10px;
+      cursor: pointer;
+      transition: border-color 0.15s ease;
+    }
+
+    .card:hover {
+      border-color: #60a5fa;
+    }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4px;
+    }
+
+    .q-num {
+      font-size: 11px;
+      color: #60a5fa;
+      font-weight: 700;
+    }
+
+    .badge-correct {
+      font-size: 11px;
+      background: #065f46;
+      color: #a7f3d0;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-weight: 700;
+    }
+
+    .badge-wrong {
+      font-size: 11px;
+      background: #7f1d1d;
+      color: #fecaca;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-weight: 700;
+    }
+
+    .q-text {
+      font-size: 12px;
+      line-height: 1.45;
+      margin-bottom: 6px;
+      color: #e5e7eb;
+    }
+
+    .q-answer {
+      font-size: 12px;
+      background: #064e3b;
+      color: #a7f3d0;
+      padding: 6px 8px;
+      border-radius: 6px;
+      line-height: 1.4;
+    }
+
+    .options-box {
+      display: none;
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px dashed #374151;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .card.expanded .options-box {
+      display: flex;
+    }
+
+    .option-item {
+      font-size: 11.5px;
+      padding: 6px 8px;
+      border-radius: 6px;
+      background: #111827;
+      border: 1px solid #374151;
+      color: #d1d5db;
+      line-height: 1.35;
+    }
+
+    .option-item.is-selected {
+      background: #1e3a8a;
+      border-color: #60a5fa;
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    .hint {
+      font-size: 10.5px;
+      color: #9ca3af;
+      margin-top: 5px;
+    }
+
+    .empty {
+      text-align: center;
+      color: #9ca3af;
+      font-size: 12px;
+      padding: 28px 10px;
+      background: #1f2937;
+      border-radius: 8px;
+      border: 1px dashed #374151;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div>
+      <div class="title">Manara Mock Exam Tracker</div>
+      <div id="sessionInfo" class="meta">No active session</div>
+    </div>
+  </div>
+
+  <div class="save-row">
+    <input id="fileNameInput" type="text" placeholder="JSON file name (e.g. aws-cloud-mock-1)..." />
+    <button id="exportBtn" class="btn-export" type="button">Export JSON</button>
+  </div>
+  <div class="save-row">
+    <input id="apiKeyInput" type="password" placeholder="Gemini API Token (saved locally)..." />
+    <button id="saveKeyBtn" class="btn-import" type="button">Save Token</button>
+  </div>
+
+  <div class="actions">
+    <button id="importBtn" class="btn-import" type="button">Import JSON</button>
+    <input id="importFileInput" type="file" accept=".json,application/json" style="display: none;" />
+    <button id="openReviewBtn" class="btn-review" type="button">Open Review Page</button>
+    <button id="deleteBtn" class="btn-delete" type="button">Delete Session</button>
+  </div>
+
+  <div id="statusMsg" class="status-msg"></div>
+
+  <input id="searchInput" class="search-input search-input" type="text" placeholder="Search questions or answers..." />
+<div class="save-row" style="margin-top: 10px; border-top: 1px solid #374151; padding-top: 10px;">
+    <button id="toggleBankBtn" class="btn-import" type="button" style="flex: 1;">Saved Bank (0)</button>
+    <button id="clearBankBtn" class="btn-delete" type="button">Clear Bank</button>
+  </div>
+  <div id="bankContainer" class="questions-list" style="display: none; max-height: 220px; margin-top: 8px;"></div>
+  <div id="questionsContainer" class="questions-list"></div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

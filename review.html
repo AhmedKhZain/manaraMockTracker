@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Exam Review - Manara Mock Tracker</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: "Segoe UI", Tahoma, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      padding: 24px;
+      background: #0f172a;
+      color: #f8fafc;
+    }
+
+    .container {
+      max-width: 940px;
+      margin: 0 auto;
+    }
+
+    .top-bar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      margin: 0 0 4px 0;
+      font-size: 20px;
+    }
+
+    .sub {
+      font-size: 13px;
+      color: #94a3b8;
+    }
+
+    .stats {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .stat-pill {
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+      background: #334155;
+    }
+
+    .stat-correct {
+      background: #065f46;
+      color: #a7f3d0;
+    }
+
+    .stat-wrong {
+      background: #7f1d1d;
+      color: #fecaca;
+    }
+
+    .token-bar {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 14px;
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 10px;
+      padding: 10px 14px;
+      align-items: center;
+    }
+
+    .token-input {
+      flex: 1;
+      padding: 8px 12px;
+      border-radius: 8px;
+      border: 1px solid #334155;
+      background: #0f172a;
+      color: #f8fafc;
+      font-size: 13px;
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 18px;
+      align-items: center;
+    }
+
+    .filter-btn, .action-btn {
+      border: 1px solid #334155;
+      background: #1e293b;
+      color: #e2e8f0;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .filter-btn.active {
+      background: #2563eb;
+      border-color: #3b82f6;
+      color: #ffffff;
+    }
+
+    .action-btn.import {
+      background: #7c3aed;
+      border-color: #8b5cf6;
+      color: #ffffff;
+    }
+
+    .action-btn.export {
+      background: #059669;
+      border-color: #10b981;
+      color: #ffffff;
+    }
+
+    .action-btn.save-token {
+      background: #2563eb;
+      border-color: #3b82f6;
+      color: #ffffff;
+    }
+
+    .search-box {
+      flex: 1;
+      min-width: 220px;
+      padding: 8px 12px;
+      border-radius: 8px;
+      border: 1px solid #334155;
+      background: #1e293b;
+      color: #f8fafc;
+      font-size: 13px;
+    }
+
+    .cards {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .q-card {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 18px;
+    }
+
+    .q-card.correct {
+      border-left: 5px solid #10b981;
+    }
+
+    .q-card.wrong {
+      border-left: 5px solid #ef4444;
+    }
+
+    .q-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .q-header-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .q-index {
+      font-size: 13px;
+      font-weight: 700;
+      color: #60a5fa;
+    }
+
+    .status-tag {
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 999px;
+    }
+
+    .status-correct {
+      background: #065f46;
+      color: #a7f3d0;
+    }
+
+    .status-wrong {
+      background: #7f1d1d;
+      color: #fecaca;
+    }
+
+    .status-unknown {
+      background: #334155;
+      color: #cbd5e1;
+    }
+
+    .ask-ai-btn {
+      background: #4f46e5;
+      color: #ffffff;
+      border: none;
+      border-radius: 7px;
+      padding: 6px 12px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .ask-ai-btn:hover:not(:disabled) {
+      background: #4338ca;
+    }
+
+    .ask-ai-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .q-body {
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 1.6;
+      margin-bottom: 14px;
+      color: #f1f5f9;
+    }
+
+    .options-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .opt {
+      padding: 10px 14px;
+      border-radius: 8px;
+      background: #0f172a;
+      border: 1px solid #334155;
+      font-size: 14px;
+      line-height: 1.45;
+      color: #cbd5e1;
+    }
+
+    .opt.user-picked-correct {
+      background: #064e3b;
+      border-color: #10b981;
+      color: #ecfdf5;
+      font-weight: 700;
+    }
+
+    .opt.user-picked-wrong {
+      background: #7f1d1d;
+      border-color: #ef4444;
+      color: #fef2f2;
+      font-weight: 700;
+    }
+
+    .opt.user-picked-neutral {
+      background: #1e3a8a;
+      border-color: #60a5fa;
+      color: #eff6ff;
+      font-weight: 700;
+    }
+
+    .ai-box {
+      margin-top: 14px;
+      padding: 12px 14px;
+      border-radius: 8px;
+      background: #0f172a;
+      border: 1px solid #4338ca;
+      font-size: 13.5px;
+      line-height: 1.55;
+      color: #e2e8f0;
+    }
+
+    .ai-title {
+      font-weight: 700;
+      color: #a5b4fc;
+      margin-bottom: 6px;
+      font-size: 13px;
+    }
+
+    .ai-row {
+      margin-bottom: 6px;
+    }
+
+    .ai-error {
+      color: #fca5a5;
+      font-size: 13px;
+    }
+
+    .empty {
+      text-align: center;
+      padding: 40px 20px;
+      background: #1e293b;
+      border-radius: 12px;
+      border: 1px dashed #334155;
+      color: #94a3b8;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="top-bar">
+      <div>
+        <h1 id="pageTitle">Exam Review Report</h1>
+        <div id="sessionMeta" class="sub">Loading session data...</div>
+      </div>
+      <div id="statsBox" class="stats"></div>
+    </div>
+
+    <div class="token-bar">
+      <input id="reviewApiKeyInput" class="token-input" type="password" placeholder="Gemini API Token..." />
+      <button id="saveReviewTokenBtn" class="action-btn save-token" type="button">Save Token</button>
+    </div>
+
+    <div class="toolbar">
+      <button class="filter-btn active" data-filter="all" type="button">All</button>
+      <button class="filter-btn" data-filter="wrong" type="button">Wrong Only</button>
+      <button class="filter-btn" data-filter="correct" type="button">Correct Only</button>
+      <button id="exportJsonBtn" class="action-btn export" type="button">Export JSON</button>
+      <button id="importJsonBtn" class="action-btn import" type="button">Import JSON</button>
+      <input id="reviewFileInput" type="file" accept=".json,application/json" style="display: none;" />
+      <input id="searchBox" class="search-box" type="text" placeholder="Search questions or options..." />
+    </div>
+
+    <div id="cardsContainer" class="cards"></div>
+  </div>
+
+  <script src="review.js"></script>
+</body>
+</html>

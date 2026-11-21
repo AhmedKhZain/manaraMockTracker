@@ -1,0 +1,20 @@
+{
+  "manifest_version": 3,
+  "name": "Manara Mock Exam Tracker",
+  "version": "1.4",
+  "description": "Records mock exam questions and answers on Manara quiz pages only.",
+  "permissions": ["storage", "tabs"],
+  "content_scripts": [
+    {
+      "matches": [
+        "https://app.manara.tech/*/quiz/*",
+        "https://app.manara.tech/*/quiz/*/*"
+      ],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html"
+  }
+}
